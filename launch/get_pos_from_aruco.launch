@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<launch>
+       <arg name="observation_topic_name" 	default="/aruco_eye/aruco_observation" />
+       <arg name="position_topic_name" 	default="/pos_uav" />
+       <arg name="velocity_topic_name" 	default="/vel_uav" />
+       <arg name="position_kf_topic_name" default="/pos_uav_kf" />
+    <!--<include file="$(find aruco_eye_ros)/launch/test_for_ardrone.launch"/> -->
+	<!-- Launches the get pos node -->
+    <node pkg="aruco_navigation" type="get_nav_data_node" name="get_nav_data_node" output="screen">
+        <param name="debug" value="true" />
+        <param name="low_pass_param_vel" value="0.6" />
+        <param name="Lkp" value="1.0" />
+        <param name="Lkq" value="0.1" />
+        <param name="Lkr" value="1.0" />    
+        <param name="Hz" value="20.0" />    
+        <remap from="/aruco_eye/aruco_observation" to="$(arg observation_topic_name)"/>    
+        <remap from="/pos_uav" to="$(arg position_topic_name)"/>    
+        <remap from="/vel_uav" to="$(arg velocity_topic_name)"/> 
+        <remap from="/pos_uav_kf" to="$(arg position_kf_topic_name)"/>
+        <!--<remap from="/comp_pos_uav" to="$(arg velocity_topic_name)"/> 
+        <remap from="/vel_uav_kf" to="$(arg velocity_topic_name)"/> -->
+    </node>
+</launch>
